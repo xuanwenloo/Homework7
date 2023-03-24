@@ -1,0 +1,16 @@
+---
+title: "Lab 3"
+author: "Xuan Wen Loo"
+date: "2023-03-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+data(happy, package="productplots")
+head(happy)
+```
+
