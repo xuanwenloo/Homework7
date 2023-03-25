@@ -9,6 +9,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Link to github repo: https://github.com/xuanwenloo/Homework7 
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+```
+
 ```{r}
 data(happy, package="productplots")
 head(happy)
@@ -39,6 +47,85 @@ str(HAPPY)
 
 3. Bring all levels of factors into a sensible order. For marital you could e.g. order the levels according to average age.
 ```{r}
-
+col = c('HAPPY', 'SEX', 'MARITAL', 'DEGREE', 'FINRELA', 'HEALTH', 'PARTYID', 'POLVIEWS')
+HAPPY[col] = lapply(HAPPY[col], factor)
+levels(HAPPY$MARITAL)
+levels(HAPPY$DEGREE)
+levels(HAPPY$FINRELA)
+levels(HAPPY$HEALTH)
+levels(HAPPY$PARTYID)
+levels(HAPPY$POLVIEWS)
 ```
 
+```{r}
+h = HAPPY
+h$MARITAL = factor(h$MARITAL, levels = c('NEVER MARRIED', 'MARRIED', 'SEPARATED', 'DIVORCED', 'WIDOWED'))
+
+h$DEGREE = factor(h$DEGREE, levels = c('LT HIGH SCHOOL', 'HIGH SCHOOL', 'JUNIOR COLLEGE', 'BACHELOR', 'GRADUATE'))
+
+h$FINRELA = factor(h$FINRELA, levels = c('FAR BELOW AVERAGE', 'BELOW AVERAGE', 'AVERAGE', 'ABOVE AVERAGE', 'FAR ABOVE AVERAGE'))
+
+h$HEALTH = factor(h$HEALTH, levels = c('POOR', 'FAIR', 'GOOD', 'EXCELLENT'))
+
+h$PARTYID = factor(h$PARTYID, levels = c('STRONG DEMOCRAT', 'NOT STR DEMOCRAT', 'IND,NEAR DEMOCRAT', 'INDEPENDENT', 'IND,NEAR REP', 'NOT STR REPUBLICAN', 'STRONG REPUBLICAN', 'OTHER PARTY'))
+
+h$POLVIEWS = factor(h$POLVIEWS, levels = c('EXTREMELY LIBERAL', 'LIBERAL', 'SLIGHTLY LIBERAL', 'MODERATE', 'SLIGHTLY CONSERVATIVE', 'CONSERVATIVE', 'EXTREMLY CONSERVATIVE'))
+
+HAPPY = h
+str(HAPPY)
+```
+
+```{r}
+ggplot(HAPPY, aes(x = HAPPY)) + geom_bar()
+```
+```{r}
+ggplot(HAPPY, aes(x = YEAR)) + geom_bar()
+```
+```{r}
+ggplot(HAPPY, aes(x = AGE)) + geom_bar()
+```
+```{r}
+ggplot(HAPPY, aes(x = SEX)) + geom_bar()
+```
+```{r}
+ggplot(HAPPY, aes(x = MARITAL)) + geom_bar()
+```
+```{r}
+ggplot(HAPPY, aes(x = DEGREE)) + geom_bar()
+```
+```{r}
+ggplot(HAPPY, aes(x = FINRELA)) + geom_bar()
+```
+```{r}
+ggplot(HAPPY, aes(x = HEALTH)) + geom_bar()
+```
+```{r}
+ggplot(HAPPY, aes(x = PARTYID)) + geom_bar()
+```
+```{r}
+ggplot(HAPPY, aes(x = POLVIEWS)) + geom_bar()
+```
+
+**Part two (individual exploration)**
+
+I will be investigating the relationship between happiness and degree and marital status.
+
+```{r}
+ggplot(na.omit(HAPPY), aes(x = DEGREE, fill = HAPPY)) + geom_bar(position = "fill")
+```
+
+The plot shows that people with higher academic qualifications are happier, most probably because they have higher achievements in the society, and they can get a better job with a good pay.
+
+```{r}
+ggplot(na.omit(HAPPY), aes(x = MARITAL, fill = HAPPY)) + geom_bar(position = "fill")
+```
+
+The plot shows that the proportion of very happy people is the largest in married couples, and least among separated couples. This is most probably because married people have a harmonious family which will make them happier.
+
+```{r, message=FALSE, warning=FALSE}
+library(ggmosaic)
+ggplot(na.omit(HAPPY)) + geom_mosaic(aes(x = product(DEGREE), fill = HAPPY)) + facet_wrap(~MARITAL) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+From the plot, it seemed that married people with high academic achievements are most likely to be happier compared to people who failed a relationship and did not have high degrees.
