@@ -14,3 +14,31 @@ data(happy, package="productplots")
 head(happy)
 ```
 
+```{r}
+HAPPY <- readRDS("data/HAPPY.rds")
+```
+
+**Part one (cleaning)**
+
+1. Data cleaning: the values “IAP”, “DK” and “NA” all encode missing values. Replace all of these instances by the value NA.
+```{r}
+HAPPY[HAPPY == "IAP" | HAPPY == "DK"| HAPPY == 'NA'] = NA 
+head(HAPPY)
+```
+
+2. Check the type of the variable and cast into the right type (factor variable for categorical variables). For age, change “89 OR OLDER” to 89 and assume the variable should be numeric.
+```{r}
+str(HAPPY)
+```
+
+```{r}
+HAPPY$AGE[HAPPY$AGE == '89 OR OLDER'] = 89
+HAPPY$AGE = as.numeric(HAPPY$AGE)
+str(HAPPY)
+```
+
+3. Bring all levels of factors into a sensible order. For marital you could e.g. order the levels according to average age.
+```{r}
+
+```
+
